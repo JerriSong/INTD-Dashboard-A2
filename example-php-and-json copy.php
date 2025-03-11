@@ -14,7 +14,7 @@ function getLowestAreasForYear($data, $year) {
 }
 
 // Default selected year (can be changed via UI)
-$selectedYear = isset($_GET['year']) ? $_GET['year'] : '2020';
+$selectedYear = isset($_GET['year']) ? $_GET['year'] : '2018';
 $lowestAreas = getLowestAreasForYear($array, $selectedYear);
 
 ##########################
@@ -23,157 +23,191 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
 <html>
 <head>
     <title>Transportation Mode Share Dashboard</title>
-  <link rel="stylesheet" href="style.css">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-   <style>
+    <style>
     /* Main styles for the transportation dashboard */
-* {
-    box-sizing: border-box;
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background-color: #F1F5FC;
+        color: #002360;
+    }
+
+    .header {
+        background-color: #fff;
+        padding:10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 6px 12px rgba(6, 96, 254, 0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
+    .logo-area {
+        display: flex;
+        align-items: center;
+    }
+
+    .logo-area img {
+        width: 90px;
+        height: auto;
+      
+    }
+
+    .logo-area span {
+        margin-left: 24px;
+        font-size: 18px;
+        color:#002360;
+        font-weight: 560;
+
+    }
+
+    .user-profile {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .user-profile img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    h2, h3 {
+        margin-top: 0;
+        color:#002360;
+    }
+
+    .main-section {
+    padding: 16px;
+    background-color: #f0f7ff;
+    margin-top: 75px; 
 }
 
-body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    width: 90%;
-    background-color: #f5f5f5;
-    color: #333;
+    .year-tabs {
+        display: flex;
+        margin-bottom: 20px;
+        margin-top:30px;
+      
+    }
+
+    .year-tab {
+        
+        padding: 8px 36px;
+        background-color: #ffffff;
+        margin-right: 10px;
+        text-decoration: none;
+        color: #333;
+        text-align: center;
+        min-width: 120px;
+        border-radius: 8px;
+        font-weight: bold;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        transition: background-color 0.3s ease; 
+    }
+    .year-tab:hover {
+    background-color:rgb(173, 205, 255); 
 }
+    .year-tab.active {
+        background-color: #0066FF;
+        color: white;
+    }
 
-.header {
-    background-color: #fff;
-    padding: 15px 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    font-size: 12px;
-    font-weight: 600;
-}
-
-
- h2, h3, h4 {
-    margin-top: 0;
-}
-
-.overview-card {
-    margin: 20px;
-    padding: 15px;
-    background-color: #eee;
-    border-radius: 4px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.title {
-    font-weight: bold;
-    font-size: 2rem;
-}
-
-.main-section {
-    margin: 20px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.year-tabs {
-    display: flex;
-    margin-bottom: 20px;
-}
-
-.year-tab {
-    padding: 8px 20px;
-    background-color: #ffffff;
-    margin-right: 5px;
-    text-decoration: none;
-    color: #333; /* 改为深色 */
-    text-align: center;
-    min-width: 80px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px; /* 添加圆角 */
-}
-
-.year-tab.active {
-    background-color: #0660FE;
-    color: white;
-}
-
-.dashboard-container {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.chart-container {
-    flex: 1 1 65%;
-    margin-bottom: 30px;
-    min-width: 300px;
-}
-
-.chart {
-    height: 400px;
-    width: 100%;
-}
-
-.areas-lacking {
-    flex: 1 1 30%;
-    background-color: #eee;
-    padding: 15px;
-    border-radius: 4px;
-    margin-left: 20px;
-    min-width: 250px;
-}
-
-.ranking-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.ranking-table th,
-.ranking-table td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-.ranking-table tr:nth-child(even) {
-    background-color: rgba(0,0,0,0.05);
-}
-
-.ranking-table th {
-    background-color: #f0f0f0;
-    font-weight: bold;
-}
-
-.debug-section {
-    margin: 20px;
-    padding: 10px;
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-@media (max-width: 768px) {
     .dashboard-container {
-        flex-direction: column;
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
     }
-    
+
+    .chart-container {
+        flex: 1 1 65%;
+        background-color: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .chart {
+        height: 400px;
+        width: 100%;
+    }
+
     .areas-lacking {
-        margin-left: 0;
-        margin-top: 20px;
+        flex: 1 1 30%;
+        background-color: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
-}
-   </style>
+
+    .ranking-table {
+        width: 100%;
+    }
+
+    .ranking-table tbody tr {
+        display: grid;
+        grid-template-columns: 40px 1fr 80px;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .ranking-table .rank {
+        font-weight: bold;
+        color: #4a6fa5;
+    }
+
+    .ranking-table .area {
+        font-weight: 500;
+    }
+
+    .ranking-table .percentage {
+        text-align: center;
+        background-color: #e8f0ff;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-weight: 600;
+        color: #4a6fa5;
+    }
+
+    .empty-space {
+        background-color: white;
+        border-radius: 12px;
+        height: 100px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .debug-section {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-container {
+            flex-direction: column;
+        }
+    }
+    </style>
 </head>
 <body>
     <div class="header">
-        <img src="logo.png" alt="logo" class="image" style="width:150px !important; height:auto !important; max-width:150px !important; object-fit:contain !important;">
-        <p>Open Data Portal</p>
-    </div>
-
-    <div class="overview-card">
-        <div class="title">See the overview</div>
-        <div class="action-button"><!-- Action button would go here --></div>
+        <div class="logo-area">
+            <img src="logo.png" alt="City of Vancouver Logo">
+            <span>Open Data Portal</span>
+        </div>
+        <div class="user-profile">
+            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User Profile">
+        </div>
     </div>
 
     <div class="main-section">
@@ -197,38 +231,20 @@ body {
             <div class="areas-lacking">
                 <h3>Top 3 areas that lacking community services</h3>
                 <table class="ranking-table">
-                    <thead>
-                        <tr>
-                            <th width="10%">Rank</th>
-                            <th width="60%">Area</th>
-                            <th width="15%">Year</th>
-                            <th width="15%">%</th>
-                        </tr>
-                    </thead>
                     <tbody>
-                        <?php foreach($lowestAreas as $area): ?>
+                        <?php foreach($lowestAreas as $index => $area): ?>
                         <tr>
-                            <td><?= $area['ranking'] ?></td>
-                            <td><?= $area['name'] ?></td>
-                            <td><?= $area['year'] ?></td>
-                            <td><?= $area['percentage'] ?></td>
+                            <td class="rank"><?= $index + 1 ?></td>
+                            <td class="area"><?= $area['name'] ?></td>
+                            <td class="percentage"><?= $area['percentage'] ?>%</td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-             
             </div>
         </div>
-    </div>
-
-    <div class="debug-section">
-        <pre><?php // for debugging ////////////////////
-// var_dump($json); // uncomment this if needed for debugging
-// var_dump($array); // uncomment this if needed for debugging
-// you can also look at the terminal on the server with the commands:
-// tail -f /var/log/apache2/error.log
-// tail -f /var/log/apache2/access.log
-?></pre>
+        
+        <div class="empty-space"></div>
     </div>
 
     <script>
@@ -251,10 +267,10 @@ body {
                         label: selectedYear + ' Transport Usage (%)',
                         data: yearData,
                         backgroundColor: '#D9E7FF',
-                        hoverBackgroundColor: '#0660FE',
+                        hoverBackgroundColor: '#0066FF',
                         barPercentage: 0.8,
                         categoryPercentage: 0.7,
-                        borderRadius: 5
+                        borderRadius: 8
                     }]
                 },
                 options: {
@@ -264,12 +280,19 @@ body {
                         y: {
                             beginAtZero: true,
                             max: 100,
+                            grid: {
+                                color: '#E5E5E5'
+                            },
                             title: {
                                 display: true,
-                                text: 'Percentage (%)'
+                                text: 'Percentage (%)',
+                                color: '#666666'
                             }
                         },
                         x: {
+                            grid: {
+                               display: false,
+                            },
                             ticks: {
                                 autoSkip: false,
                                 maxRotation: 45,
@@ -289,4 +312,3 @@ body {
     </script>
 </body>
 </html>
-<!-- #D5EAFC -->

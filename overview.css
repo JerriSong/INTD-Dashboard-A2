@@ -1,0 +1,41 @@
+html {
+    background-color: #F1F5FC;
+}
+
+body {
+    font-family: sans-serif;
+    justify-content: center;
+    align-items: center;
+    padding-top: 200px;
+    height: 90vh;
+    color:#002360;
+    text-align: center;
+}
+
+.information {
+    text-align: center; 
+}
+
+.information h2 {
+    margin-bottom: 20px;  
+    font-weight: bolder;
+    font-size: xx-large;
+}
+
+margin-bottom: 20px;
+    font-weight: 300;
+    position: relative; /* Changed to relative */
+    line-height: 1.5; /* Spacing between lines */
+    max-width: 70%; /* Limit width for better readability */
+    margin: 0 auto;
+
+
+.button {
+    background-color: #0660FE; 
+    color: white; 
+    padding: 10px 35px; 
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    display: inline-block; /* Make it inline-block */
+    margin-top: 20px; /* Space above the button */
+    }

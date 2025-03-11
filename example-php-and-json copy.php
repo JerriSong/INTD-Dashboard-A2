@@ -30,7 +30,7 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
     <div class="header">
     
     <img src="logo.png" alt="logo" class="image" style="width:150px !important; height:auto !important; max: width 150px;px !important; object-fit:contain !important;">
-    <p>Open Jerri Portal</p>
+    <p>Open Data Portal</p>
 </div>
 
     <div class="overview-card">
@@ -112,7 +112,7 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
                     datasets: [{
                         label: selectedYear + ' Transport Usage (%)',
                         data: yearData,
-                        backgroundColor: 'rgba(75, 75, 75, 0.7)'
+                        backgroundColor: 'rgba(75, 75, 75, 1)'
                     }]
                 },
                 options: {

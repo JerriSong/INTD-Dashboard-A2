@@ -29,7 +29,9 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
 <body>
     <div class="header">
         <h1>Open Data Portal</h1>
+        <div class ="logo">
         <img src="logo.png" alt="logo">
+        </div>
     </div>
 
     <div class="overview-card">

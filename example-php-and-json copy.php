@@ -112,7 +112,8 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
                     datasets: [{
                         label: selectedYear + ' Transport Usage (%)',
                         data: yearData,
-                        backgroundColor: 'rgba(75, 75, 75, 1)'
+                        backgroundColor: '#D5EAFC'
+                        
                     }]
                 },
                 options: {
@@ -147,3 +148,4 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
     </script>
 </body>
 </html>
+<!-- #D5EAFC -->

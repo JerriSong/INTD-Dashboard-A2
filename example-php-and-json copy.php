@@ -23,7 +23,7 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
 <html>
 <head>
     <title>Transportation Mode Share Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
    <style>
@@ -216,7 +216,7 @@ body {
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <div class="title">See the overview</div>
+             
             </div>
         </div>
     </div>

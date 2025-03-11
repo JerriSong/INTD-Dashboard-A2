@@ -1,4 +1,7 @@
 /* Main styles for the transportation dashboard */
+* {
+    box-sizing: border-box;
+}
 body {
     font-family: sans-serif;
     margin: 0;

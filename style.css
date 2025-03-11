@@ -18,8 +18,10 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.logo {
-    width: 20px;
+.image {
+    width: 30px;
+    margin-top: 5px;
+    display: block;
 }
 
 h1, h2, h3, h4 {
@@ -98,7 +100,7 @@ h1, h2, h3, h4 {
     border-collapse: collapse;
 }
 
-.ranking-table th, 
+.ranking-table th,
 .ranking-table td {
     padding: 8px;
     text-align: left;

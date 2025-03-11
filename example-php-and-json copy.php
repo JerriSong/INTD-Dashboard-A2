@@ -28,12 +28,13 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
 </head>
 <body>
     <div class="header">
-    <h1>Open Data Portal</h1>
+    
     <img src="logo.png" alt="logo" class="image" style="width:150px !important; height:auto !important; max: width 150px;px !important; object-fit:contain !important;">
-    </div>
+    <p>Open Data Portal</p>
+</div>
 
     <div class="overview-card">
-        <div class="title">See the overview</div>
+     
         <div class="action-button"><!-- Action button would go here --></div>
     </div>
 
@@ -65,6 +66,7 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
                             <th width="15%">Year</th>
                             <th width="15%">%</th>
                         </tr>
+                        <div class="title">See the overview</div>
                     </thead>
                     <tbody>
                         <?php foreach($lowestAreas as $area): ?>

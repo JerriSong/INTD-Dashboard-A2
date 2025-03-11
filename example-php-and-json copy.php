@@ -25,16 +25,21 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
     <title>Transportation Mode Share Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        .year-tab.active {
+            background-color: #0660FE;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <div class="header">
-    
-    <img src="logo.png" alt="logo" class="image" style="width:150px !important; height:auto !important; max: width 150px;px !important; object-fit:contain !important;">
-    <p>Open Data Portal</p>
-</div>
+        <img src="logo.png" alt="logo" class="image" style="width:150px !important; height:auto !important; max-width:150px !important; object-fit:contain !important;">
+        <p>Open Data Portal</p>
+    </div>
 
     <div class="overview-card">
-     
+        <div class="title">See the overview</div>
         <div class="action-button"><!-- Action button would go here --></div>
     </div>
 
@@ -66,7 +71,6 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
                             <th width="15%">Year</th>
                             <th width="15%">%</th>
                         </tr>
-                        <div class="title">See the overview</div>
                     </thead>
                     <tbody>
                         <?php foreach($lowestAreas as $area): ?>
@@ -79,6 +83,7 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                <div class="title">See the overview</div>
             </div>
         </div>
     </div>
@@ -112,8 +117,11 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
                     datasets: [{
                         label: selectedYear + ' Transport Usage (%)',
                         data: yearData,
-                        backgroundColor: '#D5EAFC'
-                        
+                        backgroundColor: '#D9E7FF',
+                        hoverBackgroundColor: '#0660FE',
+                        barPercentage: 0.8,
+                        categoryPercentage: 0.8,
+                        borderRadius: 5
                     }]
                 },
                 options: {

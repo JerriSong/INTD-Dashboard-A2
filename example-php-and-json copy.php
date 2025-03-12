@@ -34,9 +34,10 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
         font-family: sans-serif;
         margin: 0;
         padding: 0;
-        width: 100%;
+        width: 95%;
         background-color: #F1F5FC;
         color: #002360;
+        margin-left: 2.2%
     }
 
     .header {
@@ -93,9 +94,12 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
     .main-section {
     padding: 16px;
     background-color: #f0f7ff;
-    margin-top: 75px; 
+    margin-top: 90px; 
 }
-
+.goal-text {
+    margin-top: -10px; /* 负边距可以让文字向上移动 */
+    padding-top: 0;
+}
     .year-tabs {
         display: flex;
         margin-bottom: 20px;
@@ -105,7 +109,7 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
 
     .year-tab {
         
-        padding: 8px 36px;
+        padding: 8px 55px;
         background-color: #ffffff;
         margin-right: 10px;
         text-decoration: none;
@@ -114,8 +118,9 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
         min-width: 120px;
         border-radius: 8px;
         font-weight: bold;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        box-shadow: 0 1px 3px rgba(13, 54, 150, 0.1);
         transition: background-color 0.3s ease; 
+        #002360
     }
     .year-tab:hover {
     background-color:rgb(173, 205, 255); 
@@ -132,7 +137,7 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
     }
 
     .chart-container {
-        flex: 1 1 65%;
+        flex: 1 1 69%;
         background-color: white;
         border-radius: 12px;
         padding: 20px;
@@ -145,21 +150,25 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
     }
 
     .areas-lacking {
-        flex: 1 1 30%;
+        flex: 1 1 26%;
         background-color: white;
         border-radius: 12px;
         padding: 20px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
-
+    .areas-lacking h3 {
+  
+   line-height:1.5;
+}
     .ranking-table {
         width: 100%;
+        padding-top:24px;
     }
 
     .ranking-table tbody tr {
         display: grid;
         grid-template-columns: 40px 1fr 80px;
-        padding: 10px 0;
+        padding: 16px 0;
         border-bottom: 1px solid #eee;
     }
 
@@ -175,10 +184,89 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
     .ranking-table .percentage {
         text-align: center;
         background-color: #e8f0ff;
-        padding: 3px 8px;
+        padding: 6px 8px;
         border-radius: 4px;
         font-weight: 600;
         color: #4a6fa5;
+    }
+
+    /* Dropdown styles for rationale */
+    .dropdown-container {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+    
+    .dropdown-header {
+        padding: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        border-bottom: 1px solid transparent;
+    }
+    
+    .dropdown-header h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: #002360;
+    }
+    
+    .dropdown-icon {
+        transition: transform 0.3s ease;
+    }
+    
+    .dropdown-icon.open {
+        transform: rotate(180deg);
+    }
+    
+    .dropdown-content {
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    
+    .dropdown-content.open {
+        padding: 0 30px 40px 40px;
+        max-width:90%;
+        max-height: 2000px; /* Arbitrary large height */
+        font-weight:390;
+    }
+    
+    .dropdown-content h4 {
+        margin-top: 30px;
+        margin-bottom: 15px;
+        color: #002360;
+        font-size: 16px;
+        font-weight:700;
+    }
+    
+    .dropdown-content p {
+        margin-top: 0;
+        margin-bottom: 16px;
+        line-height: 1.6;
+        color: #002360;
+    }
+    
+    .dropdown-content ul {
+        margin-top: 0;
+        margin-bottom: 20px;
+        padding-left: 20px;
+        color: #002360;
+    }
+    
+    .dropdown-content li {
+        margin-bottom: 10px;
+        line-height: 1.6;
+    }
+    
+    /* Add space at the bottom of the page */
+    .page-bottom-space {
+        height: 100px;
     }
 
     .empty-space {
@@ -212,8 +300,8 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
 
     <div class="main-section">
         <h2>Mode share (trips made by foot, bike, or transit)</h2>
-        <p>The goal is to increase community services to <?= $array['goal']['target_percentage'] ?>% in <?= $array['goal']['year'] ?></p>
-
+        <p class="goal-text">The goal is to increase community services to <?= $array['goal']['target_percentage'] ?>% in <?= $array['goal']['year'] ?>
+    </p>
         <div class="year-tabs">
             <a href="?year=2018" class="year-tab <?= $selectedYear == '2018' ? 'active' : '' ?>">2018</a>
             <a href="?year=2019" class="year-tab <?= $selectedYear == '2019' ? 'active' : '' ?>">2019</a>
@@ -244,11 +332,57 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
             </div>
         </div>
         
-        <div class="empty-space"></div>
+        <!-- Dropdown menu for rationale -->
+        <div class="dropdown-container">
+            <div class="dropdown-header" id="rationale-header">
+                <h3>Rationale and analysis</h3>
+                <div class="dropdown-icon">
+                    <svg class="chevron-icon" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#002360" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 15 12 9 18 15"></polyline>
+                    </svg>
+                </div>
+            </div>
+            <div class="dropdown-content" id="rationale-content">
+                <h4>Why we measure this</h4>
+                <p>The <a href="#" style="color: #0066FF; text-decoration: none;">Climate Emergency Action Plan</a> and <a href="#" style="color: #0066FF; text-decoration: none;">Transportation 2040 Plan</a> set targets around our mode split to reduce our GHG emissions and ensure our transportation network plays a key role in shaping Vancouver's future growth. We measure mode share to track the effectiveness of:</p>
+                
+                <ul>
+                    <li>Infrastructure investment that will encourage people to change their travel behaviour to sustainable modes of transportation such as walking, cycling, or taking public transit.</li>
+                    <li>Policies and programs that encourage people to change their travel behaviour to sustainable modes of transportation such as walking, cycling, or taking public transit.</li>
+                </ul>
+                
+                <h4>How we measure it</h4>
+                <p>Our Engineering Services department conducts an annual Transportation Panel Survey recording the trips that respondents make using any mode of transportation. This indicator is based on all trips between two points, whether for work, school, shopping, socializing, or another purpose. It reports the percentage of these trips that are made by walking, cycling, or public transit on a typical weekday.</p>
+            </div>
+        </div>
+        
+        <!-- Add space at the bottom of the page -->
+        <div class="page-bottom-space"></div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Dropdown functionality
+            const dropdownHeader = document.getElementById('rationale-header');
+            const dropdownContent = document.getElementById('rationale-content');
+            const dropdownIcon = document.querySelector('.dropdown-icon');
+            
+            // Set initial state - closed by default
+            dropdownContent.classList.remove('open');
+            
+            dropdownHeader.addEventListener('click', function() {
+                dropdownContent.classList.toggle('open');
+                dropdownIcon.classList.toggle('open');
+                
+                // Flip the chevron direction
+                const chevron = document.querySelector('.chevron-icon');
+                if (dropdownContent.classList.contains('open')) {
+                    chevron.innerHTML = '<polyline points="6 15 12 9 18 15"></polyline>';
+                } else {
+                    chevron.innerHTML = '<polyline points="6 9 12 15 18 9"></polyline>';
+                }
+            });
+        
             // Parse the PHP data into JavaScript
             const transportData = <?php echo json_encode($array); ?>;
             const selectedYear = "<?php echo $selectedYear; ?>";

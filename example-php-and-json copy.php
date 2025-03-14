@@ -133,7 +133,7 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
     .dashboard-container {
         display: flex;
         gap: 20px;
-        margin-bottom: 20px;
+        margin-bottom: 22px;
     }
 
     .chart-container {
@@ -170,6 +170,31 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
         grid-template-columns: 40px 1fr 80px;
         padding: 16px 0;
         border-bottom: 1px solid #eee;
+        position: relative;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+    
+    /* Highlight style for the top 3 areas when corresponding bar is hovered */
+    .ranking-table tbody tr.highlight {
+        background-color:rgb(236, 236, 236);
+        transition: background-color 0.2s ease;
+    }
+    
+    /* Custom tooltip for the top 3 areas */
+    #custom-tooltip {
+        position: absolute;
+        background-color: #002360;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 4px;
+        font-size: 14px;
+        z-index: 1000;
+        pointer-events: none;
+        display: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        font-weight: 500;
+        line-height: 1.5;
     }
 
     .ranking-table .rank {
@@ -290,11 +315,13 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
 <body>
     <div class="header">
         <div class="logo-area">
-            <img src="logo.png" alt="City of Vancouver Logo">
-            <span>Open Data Portal</span>
+            <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="logo.png" alt="City of Vancouver Logo">
+                <span>Open Data Portal</span>
+            </a>
         </div>
         <div class="user-profile">
-            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User Profile">
+            <img src="Snipaste_2025-03-13_16-57-01.png" alt="User Profile">
         </div>
     </div>
 
@@ -321,7 +348,7 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
                 <table class="ranking-table">
                     <tbody>
                         <?php foreach($lowestAreas as $index => $area): ?>
-                        <tr>
+                        <tr class="area-row" data-area="<?= $area['name'] ?>" data-percentage="<?= $area['percentage'] ?>">
                             <td class="rank"><?= $index + 1 ?></td>
                             <td class="area"><?= $area['name'] ?></td>
                             <td class="percentage"><?= $area['percentage'] ?>%</td>
@@ -382,6 +409,53 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
                     chevron.innerHTML = '<polyline points="6 9 12 15 18 9"></polyline>';
                 }
             });
+            
+            // Custom tooltip for Top 3 areas
+            const customTooltip = document.getElementById('custom-tooltip');
+            const areaRows = document.querySelectorAll('.area-row');
+            
+            areaRows.forEach(row => {
+                row.addEventListener('mouseenter', function(e) {
+                    const area = this.getAttribute('data-area');
+                    const percentage = this.getAttribute('data-percentage');
+                    
+                    // Set tooltip content
+                    customTooltip.innerHTML = `${area}<br>${selectedYear} Transport Usage (%): ${percentage}`;
+                    
+                    // Position the tooltip near the row
+                    const rect = this.getBoundingClientRect();
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    
+                    customTooltip.style.display = 'block';
+                    customTooltip.style.top = (rect.top + scrollTop - customTooltip.offsetHeight - 10) + 'px';
+                    customTooltip.style.left = (rect.left + rect.width/2 - 100) + 'px';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    customTooltip.style.display = 'none';
+                });
+                
+                // For mobile touch events
+                row.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    const area = this.getAttribute('data-area');
+                    const percentage = this.getAttribute('data-percentage');
+                    
+                    customTooltip.innerHTML = `${area}<br>${selectedYear} Transport Usage (%): ${percentage}`;
+                    
+                    const rect = this.getBoundingClientRect();
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    
+                    customTooltip.style.display = 'block';
+                    customTooltip.style.top = (rect.top + scrollTop - customTooltip.offsetHeight - 10) + 'px';
+                    customTooltip.style.left = (rect.left + rect.width/2 - 100) + 'px';
+                    
+                    // Hide tooltip after a short delay
+                    setTimeout(() => {
+                        customTooltip.style.display = 'none';
+                    }, 2000);
+                });
+            });
         
             // Parse the PHP data into JavaScript
             const transportData = <?php echo json_encode($array); ?>;
@@ -410,6 +484,25 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    onHover: (event, chartElements) => {
+                        // Reset all highlights first
+                        document.querySelectorAll('.area-row').forEach(row => {
+                            row.classList.remove('highlight');
+                        });
+                        
+                        if (chartElements && chartElements.length > 0) {
+                            // Get the area name from the hovered bar
+                            const index = chartElements[0].index;
+                            const hoveredArea = areas[index];
+                            
+                            // Find the corresponding row in the top 3 list and highlight it
+                            document.querySelectorAll('.area-row').forEach(row => {
+                                if (row.getAttribute('data-area') === hoveredArea) {
+                                    row.classList.add('highlight');
+                                }
+                            });
+                        }
+                    },
                     scales: {
                         y: {
                             beginAtZero: true,
@@ -438,6 +531,21 @@ $lowestAreas = getLowestAreasForYear($array, $selectedYear);
                         legend: {
                             display: true,
                             position: 'top'
+                        },
+                        tooltip: {
+                            backgroundColor: '#002360',
+                            titleColor: '#FFFFFF',
+                            bodyColor: '#FFFFFF',
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            bodyFont: {
+                                size: 13
+                            },
+                            padding: 10,
+                            cornerRadius: 4,
+                            displayColors: false
                         }
                     }
                 }
